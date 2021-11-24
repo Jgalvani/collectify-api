@@ -1,7 +1,9 @@
 django
-django-dotenv
 django-cors-headers
+django-dotenv
+django-heroku
 djangorestframework
 gunicorn
+pipenv
 psycopg2
 whitenoise
