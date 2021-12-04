@@ -1,1 +1,1 @@
-web: gunicorn collectyfy_api.wsgi --log-file -
+web: gunicorn collectify_api.wsgi --log-file -
