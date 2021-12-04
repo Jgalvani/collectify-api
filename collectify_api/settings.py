@@ -95,7 +95,7 @@ WSGI_APPLICATION = 'collectify_api.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-connection_string = os.environ["CONNECTION"]
+connection_string = os.environ["DATABASE_URL"]
 connection = urlparse(connection_string)
 database = connection.path.replace("/", "")
 

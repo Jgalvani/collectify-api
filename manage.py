@@ -9,7 +9,7 @@ from django.core.exceptions import ImproperlyConfigured
 
 
 def check_environment():
-    required_environment_variables = [ 'CONNECTION', 'SECRET_KEY' ]
+    required_environment_variables = [ 'DATABASE_URL', 'SECRET_KEY' ]
 
     for name in required_environment_variables:
         if name not in os.environ:
