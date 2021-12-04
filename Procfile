@@ -1,1 +1,1 @@
-web: gunicorn --access-logfile logs/access.log --error-logfile logs/error.log collectify_api.wsgi
+web: gunicorn --log-file logs.log collectify_api.wsgi
