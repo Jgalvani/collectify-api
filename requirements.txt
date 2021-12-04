@@ -5,5 +5,5 @@ django-heroku
 djangorestframework
 gunicorn
 pipenv
-psycopg2
+postgres
 whitenoise

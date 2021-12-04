@@ -6,6 +6,14 @@ name = "pypi"
 [packages]
 dependency = "*"
 gunicorn = "*"
+django-cors-headers = "*"
+django-dotenv = "*"
+django-heroku = "*"
+djangorestframework = "*"
+pipenv = "*"
+postgres = "*"
+whitenoise = "*"
+Django = "*"
 
 [dev-packages]
 
