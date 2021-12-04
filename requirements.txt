@@ -3,6 +3,7 @@ django-cors-headers
 django-dotenv
 django-heroku
 djangorestframework
+drf-api-logger
 gunicorn
 pipenv
 postgres

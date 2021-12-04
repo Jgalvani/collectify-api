@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'collectify',
     ####    OTHER APPS      ####
     'corsheaders',
+    'drf_api_logger',
     'rest_framework',
     'rest_framework.authtoken',
 ]
@@ -62,9 +63,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    ####    CORS MIDDLEWARE    ####
+    ####    CORS MIDDLEWARE     ####
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
+    ####    LOGGER              ####
+    'drf_api_logger.middleware.api_logger_middleware.APILoggerMiddleware',
 ]
 
 CORS_ALLOWED_ORIGINS = [
@@ -73,58 +76,7 @@ CORS_ALLOWED_ORIGINS = [
     "https://collectify-admin.herokuapp.com",
 ]
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'verbose': {
-            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
-            'style': '{',
-        },
-        'simple': {
-            'format': '{levelname} {message}',
-            'style': '{',
-        },
-    },
-    'filters': {
-        'special': {
-            '()': 'project.logging.SpecialFilter',
-            'foo': 'bar',
-        },
-        'require_debug_true': {
-            '()': 'django.utils.log.RequireDebugTrue',
-        },
-    },
-    'handlers': {
-        'console': {
-            'level': 'INFO',
-            'filters': ['require_debug_true'],
-            'class': 'logging.StreamHandler',
-            'formatter': 'simple'
-        },
-        'mail_admins': {
-            'level': 'ERROR',
-            'class': 'django.utils.log.AdminEmailHandler',
-            'filters': ['special']
-        }
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['console'],
-            'propagate': True,
-        },
-        'django.request': {
-            'handlers': ['mail_admins'],
-            'level': 'ERROR',
-            'propagate': False,
-        },
-        'myproject.custom': {
-            'handlers': ['console', 'mail_admins'],
-            'level': 'INFO',
-            'filters': ['special']
-        }
-    }
-}
+DRF_API_LOGGER_DATABASE = True,
 
 ROOT_URLCONF = 'collectify_api.urls'
 
