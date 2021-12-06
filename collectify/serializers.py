@@ -29,23 +29,24 @@ class CarSerializer(serializers.ModelSerializer):
         car.save()
 
         for data in color_data:
-            color_instance = Color.objects.get(name=data.get('name'))
-            CarHasColor.objects.create(car=car, color=color_instance)
+            color = Color.objects.get(name=data.get('name'))
+            CarHasColor.objects.create(car=car, color=color)
 
         return car
 
     def update(self, instance, validated_data):
         color_data = validated_data.pop('colors')
-        instance.name = validated_data.get('name', instance.name)
-        instance.save()
+        car = instance
+        car.name = validated_data.get('name', instance.name)
+        car.save()
 
-        car_has_colors = CarHasColor.objects.filter(car=instance).delete()
+        CarHasColor.objects.filter(car=car).delete()
 
         for data in color_data:
-            color_instance = Color.objects.get(name=data.get('name'))
-            CarHasColor.objects.create(car=instance, color=color_instance)
+            color = Color.objects.get(name=data.get('name'))
+            CarHasColor.objects.create(car=car, color=color)
 
-        return instance
+        return car
 
 
 class UserSerializer(serializers.ModelSerializer):
