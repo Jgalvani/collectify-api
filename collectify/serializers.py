@@ -34,10 +34,9 @@ class CarSerializer(serializers.ModelSerializer):
 
         return car
 
-    def update(self, instance, validated_data):
+    def update(self, car, validated_data):
         color_data = validated_data.pop('colors')
-        car = instance
-        car.name = validated_data.get('name', instance.name)
+        car.name = validated_data.get('name', car.name)
         car.save()
 
         CarHasColor.objects.filter(car=car).delete()
