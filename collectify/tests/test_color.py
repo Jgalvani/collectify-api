@@ -13,9 +13,9 @@ class ColorTest(APITestCase):
         Prepare variables needed by every test.
         '''
         # Authenticate.
-        self.user = AuthUser.objects.create_superuser('test_user', '', 'test_password')
-        self.token = Token.objects.create(user=self.user).key
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token)
+        self.authUser = AuthUser.objects.create_superuser('test_user', '', 'test_password')
+        self.token = Token.objects.create(user=self.authUser)
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token.key)
 
         # Create color link.
         self.color_list_endpoint = reverse('color-list')
@@ -33,7 +33,7 @@ class ColorTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         # There should be 1 color in the database.
         self.assertEqual(Color.objects.count(), 1)
-        # Color from database should be "bleu_test".
+        # Color name from database should be "bleu_test".
         self.assertEqual(Color.objects.first().name, 'bleu_test')
 
     # RETRIEVE
@@ -53,7 +53,7 @@ class ColorTest(APITestCase):
         self.assertEqual(retrieve_response.status_code, status.HTTP_200_OK)
         # Response data should be a dictionnary.
         self.assertIsInstance(retrieve_response.data, dict)
-        # Color from response should be "bleu_test".
+        # Color name from response should be "bleu_test".
         self.assertEqual(retrieve_response.data['name'], 'bleu_test')
 
     # LIST
@@ -81,8 +81,7 @@ class ColorTest(APITestCase):
         # There should be 3 colors in response.
         self.assertEqual(len(list_response.data), 3)
         # Colors from response should be the same as created colors.
-        for created_color, color in zip(created_colors, list_response.data):
-            self.assertEqual(created_color['name'], color['name'])
+        self.assertEqual(created_colors, list_response.data)
 
     # UPDATE
     def test_update_color(self):
@@ -103,9 +102,9 @@ class ColorTest(APITestCase):
         self.assertEqual(update_response.status_code, status.HTTP_200_OK)
         # Response data should be a dictionnary.
         self.assertIsInstance(update_response.data, dict)
-        # Color from response should not be "bleu_test".
+        # Color name from response should not be "bleu_test".
         self.assertNotEqual(update_response.data['name'], "bleu_test")
-        # Color from response should be "rouge_test".
+        # Color name from response should be "rouge_test".
         self.assertEqual(update_response.data['name'], 'rouge_test')
 
     # DELETE

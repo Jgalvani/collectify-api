@@ -89,7 +89,7 @@ class UserSerializer(serializers.ModelSerializer):
     def update(self, user, validated_data):
         self.set_car_and_color(validated_data)
 
-        user.firstname = validated_data.get('firsname', user.firstname)
+        user.firstname = validated_data.get('firstname', user.firstname)
         user.lastname = validated_data.get('lastname', user.lastname)
         user.date_of_birth = validated_data.get('date_of_birth', user.date_of_birth)
         user.has_driver_licence = validated_data.get('has_driver_licence', user.has_driver_licence)
