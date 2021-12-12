@@ -109,6 +109,9 @@ class ColorTest(APITestCase):
 
     # DELETE
     def test_delete_color(self):
+        """
+        Delete a color.
+        """
         # Create a color.
         data = {'name': 'bleu_test'}
         create_response = self.client.post(self.color_list_endpoint, data, format='json')

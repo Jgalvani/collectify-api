@@ -50,8 +50,8 @@ class CarSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     # Add foreign key fields using id.
-    car_id = serializers.IntegerField(required=False)
-    color_id = serializers.IntegerField(required=False)
+    car_id = serializers.IntegerField(required=False, allow_null=True)
+    color_id = serializers.IntegerField(required=False, allow_null=True)
 
     class Meta:
         model = User

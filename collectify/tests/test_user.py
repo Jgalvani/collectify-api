@@ -294,3 +294,108 @@ class UserTest(APITestCase):
         # Database user should not have a color.
         self.assertEqual(User.objects.first().color_id, None)
 
+    # RETRIEVE
+    def test_retrieve_users(self):
+        """
+        Retrieve a user.
+        """
+        # Create a color.
+        color_data = {'name': 'vert_test'}
+        color_response = self.client.post(self.color_list_endpoint, color_data, format='json')
+
+        # Create a car.
+        car_data = {'name': 'BMW_test', 'colors': [color_response.data]}
+        car_reponse = self.client.post(self.car_list_endpoint, car_data, format='json')
+
+        # Create a user.
+        data = self.required_data
+        data['has_driver_licence'] = True
+        data['car_id'] = Car.objects.first().id
+        data['color_id'] = Color.objects.first().id
+        create_response = self.client.post(self.user_list_endpoint, self.required_data, format='json')
+
+        # Retrieve the user.
+        user_detail_endpoint = reverse('user-detail', args=[create_response.data['id']])
+        retrieve_response = self.client.get(user_detail_endpoint, format='json')
+
+        # Response status code should be 200.
+        self.assertEqual(retrieve_response.status_code, status.HTTP_200_OK)
+        # Response data should be a list.
+        self.assertIsInstance(retrieve_response.data, dict)
+        # User firstname from retrieve response should be "Henry_test".
+        self.assertEqual(retrieve_response.data['firstname'], 'Henry_test')
+        # User lastname from retrieve response should be "Dupont_test".
+        self.assertEqual(retrieve_response.data['lastname'], 'Dupont_test')
+        # User date of birth from retrieve response should be "Henry_test".
+        self.assertEqual(retrieve_response.data['date_of_birth'], '1990-01-25')
+        # User from retrieve response should have a driver licence.
+        self.assertEqual(retrieve_response.data['has_driver_licence'], True)
+        # User from retrieve response should have a car.
+        self.assertEqual(retrieve_response.data['car_id'], Car.objects.first().id)
+        # User from retrieve response should have a color.
+        self.assertEqual(retrieve_response.data['color_id'], Color.objects.first().id)
+
+    # LIST
+    def test_list_users(self):
+        """
+        List users.
+        """
+        # Create a color.
+        color_data = {'name': 'vert_test'}
+        color_response = self.client.post(self.color_list_endpoint, color_data, format='json')
+
+        # Create cars.
+        cars_data = [
+            {'name': 'Tesla_test', 'colors': []},
+            {'name': 'BMW_test', 'colors': [color_response.data]},
+        ]
+        created_cars = []
+        for car_data in cars_data:
+            created_cars.append(self.client.post(self.car_list_endpoint, car_data, format='json').data)
+
+        # Create users.
+        created_users = []
+        created_users.append(self.client.post(self.user_list_endpoint, self.required_data, format='json').data)
+
+        data = self.updated_data
+        data['car_id'] = created_cars[0]['id']
+        data['color_id'] = None
+        created_users.append(self.client.post(self.user_list_endpoint, data, format='json').data)
+
+        data['firstname'] = 'David_test'
+        data['lastname'] = 'Smith_test'
+        data['car_id'] = created_cars[1]['id']
+        data['color_id'] = created_cars[1]['colors'][0]['id']
+        created_users.append(self.client.post(self.user_list_endpoint, data, format='json').data)
+
+        # List users.
+        list_response = self.client.get(self.user_list_endpoint, format='json')
+
+        # Response status code should be 200.
+        self.assertEqual(list_response.status_code, status.HTTP_200_OK)
+        # Response data should be a list.
+        self.assertIsInstance(list_response.data, list)
+        # There should be 3 users in response.
+        self.assertEqual(len(list_response.data), 3)
+        # Users from response should be the same as created users.
+        self.assertEqual(created_users, list_response.data)
+
+    # DELETE
+    def test_delete_user(self):
+        """
+        Delete a user.
+        """
+        # Create a user.
+        data = self.required_data
+        create_response = self.client.post(self.user_list_endpoint, data, format='json')
+
+        # There should be 1 user in the database.
+        self.assertEqual(User.objects.count(), 1)
+
+        # Delete a user.
+        user_detail_endpoint = reverse('user-detail', args=[User.objects.first().id])
+        delete_response = self.client.delete(user_detail_endpoint, format='json')
+
+        # There should not be any user in the database.
+        self.assertEqual(User.objects.count(), 0)
+
