@@ -46,14 +46,14 @@ pip install -r requirements.py
 
 ### Local
 
-#### Config
-Comment theses two lines at the end of collectify_api/settings.py:
+#### Config:
+Comment these two lines at the end of collectify_api/settings.py:
 ```
 - STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 - django_heroku.settings(locals())
 ```
 
-#### Run server
+#### Run server:
 In root folder:
 ```
 python3 manage.py runserver
@@ -67,10 +67,10 @@ or
 http://localhost:8000
 ```
 
-#### Tests
+#### Tests:
 In root folder:
 ```
-python3 manage.py tests
+python3 manage.py test
 ```
 
 ### Heroku
