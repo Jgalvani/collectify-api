@@ -43,16 +43,43 @@ pip install -r requirements.py
 ```
 
 ## USAGE
+
+### Local
+
+#### Config
+Comment theses two lines at the end of collectify_api/settings.py:
+```
+- STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+- django_heroku.settings(locals())
+```
+
+#### Run server
 In root folder:
 ```
 python3 manage.py runserver
 ```
 Then open your web browser and go to:
 ```
-127.0.0.1:8000
+http://127.0.0.1:8000
+```
+or
+```
+http://localhost:8000
 ```
 
-### ENDPOINTS
+#### Tests
+In root folder:
+```
+python3 manage.py tests
+```
+
+### Heroku
+Open your web browser and go to:
+```
+https://collectify-api.herokuapp.com
+```
+
+## URL ENDPOINTS
 ```
 /admin/
 /users/

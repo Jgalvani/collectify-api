@@ -162,7 +162,7 @@ STATIC_URL = '/static/'
 
 # To serve files directly from their original locations (usually in STATICFILES_DIRS or app static subdirectories) without needing to be collected into STATIC_ROOT by the collectstatic command; set WHITENOISE_USE_FINDERS to True.
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage' # Comment this line to use locally
 
 WHITENOISE_USE_FINDERS = True
 
@@ -172,4 +172,4 @@ WHITENOISE_USE_FINDERS = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Activate Django-Heroku.
-django_heroku.settings(locals())
+django_heroku.settings(locals()) # Comment this line to use locally
