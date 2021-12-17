@@ -6,7 +6,41 @@ A rest API written with django and rest framework: https://www.django-rest-frame
 ### Python
 Download and install python3.9 from https://www.python.org/downloads/.
 
-### Virtualenv wrapper
+### Pipenv
+After python installation, run in your terminal:
+```
+pip install pipenv
+```
+
+Then in root folder of the project:
+
+#### Create a virtual environment using python3
+```
+pipenv --three 
+```
+
+#### Connect to your new virtual environment
+```
+pipenv shell
+```
+
+#### Install requirements into a Pipfile and Pipfile.lock
+```
+pipenv install -r requirements.txt
+pipenv lock
+```
+
+#### Install requirements from Pipfile to your virtual environment
+```
+pipenv install
+```
+
+#### Exit the virtual environment
+```
+exit
+```
+
+### Virtualenv wrapper (deprecated, skip these steps if using pipenv)
 After python installation, run in your terminal:
 ```
 pip install virtualenv
